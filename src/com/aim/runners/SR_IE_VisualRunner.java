@@ -23,7 +23,7 @@ public class SR_IE_VisualRunner extends HH_Runner_Visual {
 	@Override
 	protected HyperHeuristic getHyperHeuristic(long seed) {
 
-		return new ModifiedChoiceFunctionAllMoves(seed);
+		return new SingleHeuristicTester(0);
 	}
 	
 	public static void main(String [] args) {

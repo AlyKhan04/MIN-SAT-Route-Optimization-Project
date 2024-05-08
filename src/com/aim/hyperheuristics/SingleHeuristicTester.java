@@ -26,7 +26,7 @@ public class SingleHeuristicTester extends HyperHeuristic {
         // Main search loop
         while(!hasTimeExpired()) {
             // Apply the specific heuristic and store the candidate cost
-            double candidateCost = oProblem.applyHeuristic(0, 0, 1);
+            double candidateCost = oProblem.applyHeuristic(5, 0, 1);
 
             // Update best if the new solution is better
             if(candidateCost < currentCost) {

@@ -38,12 +38,12 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 		super(seed);
 		this.random = new Random();
 		heuristic = new HeuristicInterface[]{
-				new DavissHillClimbing(random),
-				new AdjacentSwap(random),
-				new NextDescent(random),
-				new PMX(random),
-				new Reinsertion(random),
-				new GreedySearchMethod(random),
+				new DavissHillClimbing(random), //best on square 40
+				new AdjacentSwap(random), // 60
+				new NextDescent(random), //55
+				new PMX(random),//55
+				new Reinsertion(random),//40
+				new GreedySearchMethod(random),//55
 		};
 		this.setMemorySize(4);
 		//heuristicsIOM = getHeuristicsThatUseDepthOfSearch();

@@ -32,6 +32,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	private final int[] crossoverheuristics = {4};
 	UAVSolutionInterface Best;
 
+
 	public UZFDomain(long seed) {
 
 		// TODO - set default memory size and create the array of low-level heuristics
@@ -124,7 +125,6 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 		}
 	}
 
-
 	@Override
 	public double getBestSolutionValue() {
 		return getBestSolution().getObjectiveFunctionValue();
@@ -206,14 +206,13 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	@Override
 	public int getNumberOfHeuristics() {
 		//returns the number of heuristics
-		return 5;
+		return 6;
 	}
 
 	@Override
 	public int getNumberOfInstances() {
-
 		// IF GIVEN NEW FILE COME HERE AND CHANGE THIS
-		return 7;
+		return instance.getNumberOfLocations();
 	}
 
 	@Override
@@ -231,25 +230,26 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	}
 
 	public void loadInstance(int instanceId) {
-		Map<Integer, String> filenameMap = Map.of(
-				0, "instances/uzf/square.uzf",
-				1, "instances/uzf/libraries-15.uzf",
-				2, "instances/uzf/carparks-40.uzf",
-				3, "instances/uzf/tramstops-85.uzf",
-				4, "instances/uzf/grid.uzf",
-				5, "instances/uzf/clustered-enclosures.uzf",
-				6, "instances/uzf/chatgpt-instance-100-enclosures.uzf"
-		);
-
-		String filepath = filenameMap.get(instanceId);
-		if (filepath == null) {
-			throw new IllegalArgumentException("Invalid instance ID");
+		// Declare the Path variable
+		Path filename;
+		// Switch to set the filename based on instanceId
+		switch (instanceId) {
+			case 0: filename = Paths.get("instances/uzf/square.uzf"); break;
+			case 1: filename = Paths.get("instances/uzf/libraries-15.uzf"); break;
+			case 2: filename = Paths.get("instances/uzf/carparks-40.uzf"); break;
+			case 3: filename = Paths.get("instances/uzf/tramstops-85.uzf"); break;
+			case 4: filename = Paths.get("instances/uzf/grid.uzf"); break;
+			case 5: filename = Paths.get("instances/uzf/clustered-enclosures.uzf"); break;
+			case 6: filename = Paths.get("instances/uzf/chatgpt-instance-100-enclosures.uzf"); break;
+			default: throw new IllegalArgumentException("Invalid instance ID");
 		}
-
-		Path filename = Paths.get(filepath);
+		// Instantiate the reader and read the instance
 		UAVInstanceReader reader = new UAVInstanceReader();
 		try {
+			// Pass the filename Path and a new Random object to the method
 			this.instance = reader.readUZFInstance(filename, new Random());
+			// Store or process the uzfInstance as needed
+
 		} catch (Exception e) {
 			System.err.println("Error reading UZF instance: " + e.getMessage());
 		}

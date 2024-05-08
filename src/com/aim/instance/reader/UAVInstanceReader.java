@@ -22,11 +22,10 @@ import com.aim.instance.UZFInstance;
 public class UAVInstanceReader implements UAVInstanceReaderInterface {
 
 	@Override
-	public UZFInstanceInterface readUZFInstance(Path path, Random random) {// Reset ID counter for consistent IDs across different reads
+	public UZFInstanceInterface readUZFInstance(Path path, Random random) {
 		List<Location> enclosureLocations = new ArrayList<>();
 		Location preparationArea = null;
 		int enclosureCount = 0;
-
 		try {
 			List<String> lines = Files.readAllLines(path);
 			boolean readingPrepArea = false;
@@ -47,27 +46,33 @@ public class UAVInstanceReader implements UAVInstanceReaderInterface {
 				}
 
 				if (readingPrepArea) {
-					String[] coords = line.trim().split(" ");
+					String[] coords = line.trim().split("\\s+");
 					preparationArea = new Location(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
 					readingPrepArea = false;
 				} else if (readingEnclosures) {
-					String[] coords = line.trim().split(" ");
-					enclosureLocations.add(new Location(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+					String[] coords = line.trim().split("\\s+");
+					if (coords.length == 2) {  // Ensure that the coordinates array has exactly two elements
+						enclosureLocations.add(new Location(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+					}
 					enclosureCount++;
+
 				}
 			}
+			System.out.println(enclosureLocations);
+			System.out.println(enclosureCount);
 			Location[] enclosureArray = enclosureLocations.toArray(new Location[0]);
-			// Here you would create your instance object and return it, for example:
 			return new UZFInstance(enclosureCount, enclosureArray, preparationArea, random);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	/*public static void main(String[] args) {
-		Path path = Paths.get("instances/uzf/square.uzf");
+	/*
+	public static void main(String[] args) {
+		Path path = Paths.get("instances/uzf/s.uzf");
 		Random random = new Random();
 		UAVInstanceReader reader = new UAVInstanceReader();
 		UZFInstanceInterface uzfInstance = reader.readUZFInstance(path, random);
 	}*/
+
 }

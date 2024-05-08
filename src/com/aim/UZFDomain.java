@@ -18,6 +18,8 @@ import com.aim.solution.UZFSolution;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -76,23 +78,28 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	public String bestSolutionToString() {
 		int[] solutionRepresentation = getBestSolutionRepresentation();
 		StringBuilder sb = new StringBuilder();
+		//appends the commas between elements
 		sb.append("[");
-		// Iterate through the elements of the array
+		//goes through an array and adds the solutions to a string
 		for (int i = 0; i < solutionRepresentation.length; i++) {
-			sb.append(solutionRepresentation[i]); // Append the current element
-			if (i < uzfSolutionArray.length - 1) {
-				sb.append(", "); // Append a comma after all but the last element
+			sb.append(solutionRepresentation[i]);
+			if (i < solutionRepresentation.length - 1) {
+				sb.append(", "); // Append a comma between elements only
 			}
 		}
+		sb.append("]");
 		return sb.toString();
 	}
 
 	@Override
 	public boolean compareSolutions(int a, int b) {
-		if(uzfSolutionArray[a].getSolutionRepresentation() == uzfSolutionArray[b].getSolutionRepresentation())
-			return true;
-		// TODO
-		return false;
+		if (a < 0 || a >= uzfSolutionArray.length || b < 0 || b >= uzfSolutionArray.length) {
+			throw new IndexOutOfBoundsException("Solution index out of bounds");
+		}
+		if (uzfSolutionArray[a] == null || uzfSolutionArray[b] == null) {
+			return false; // Return false if any solution is missing
+		}
+		return uzfSolutionArray[a].getSolutionRepresentation().equals(uzfSolutionArray[b].getSolutionRepresentation());
 	}
 
 	@Override
@@ -123,22 +130,21 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 
 	@Override
 	public double getBestSolutionValue() {
-		int max = uzfSolutionArray[0].getObjectiveFunctionValue();
-		// Iterate through the array starting from the second element
-		for (int i = 1; i < uzfSolutionArray.length; i++) {
-			if(this.uzfSolutionArray[i] == null) {
-				return max;
-			}
-			if (uzfSolutionArray[i].getObjectiveFunctionValue() > max) {
-				max = uzfSolutionArray[i].getObjectiveFunctionValue();  // Update max if current element is greater
+		double max = Double.NEGATIVE_INFINITY;
+		for (UAVSolutionInterface solution : uzfSolutionArray) {
+			if (solution != null && solution.getObjectiveFunctionValue() > max) {
+				max = solution.getObjectiveFunctionValue();
 			}
 		}
-		//return the objective maximum solution value
-		return max;
+		// Return `max` if initialized; otherwise return `Double.NEGATIVE_INFINITY`
+		return max != Double.NEGATIVE_INFINITY ? max : 0; // Replace `0` with an appropriate default value if needed
 	}
-	
+
 	@Override
 	public double getFunctionValue(int index) {
+		if (index < 0 || index >= uzfSolutionArray.length) {
+			throw new IllegalArgumentException("Invalid solution index: " + index);
+		}//returns the best possible value
 		return uzfSolutionArray[index].getObjectiveFunctionValue();
 	}
 
@@ -167,47 +173,43 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 		return result;
 	}
 
+
 	@Override
 	public int[] getHeuristicsThatUseDepthOfSearch() {
 		int count = 0;
-        for (HeuristicInterface heuristicInterface : heuristic) {
-			if (heuristicInterface.usesDepthOfSearch()) {
+		//counts the heuristics
+		for (HeuristicInterface h : heuristic) {
+			if (h.usesDepthOfSearch()) {
 				count++;
 			}
 		}
-		// Create an array to hold the indices of heuristics using Depth of Search
+		//sets an array and goes through it and collects the necessary variables
 		int[] indices = new int[count];
 		int index = 0;
-
-		// Second pass to collect the indices
 		for (int i = 0; i < heuristic.length; i++) {
 			if (heuristic[i].usesDepthOfSearch()) {
 				indices[index++] = i;
 			}
 		}
-		// Return the array of indices
 		return indices;
 	}
 
 	@Override
 	public int[] getHeuristicsThatUseIntensityOfMutation() {
 		int count = 0;
-		for (HeuristicInterface heuristicInterface : heuristic) {
-			if (heuristicInterface.usesIntensityOfMutation()) {
+		//same thing but for intensity of mutation
+		for (HeuristicInterface h : heuristic) {
+			if (h.usesIntensityOfMutation()) {
 				count++;
 			}
 		}
-		// Create an array to hold the indices of heuristics using Depth of Search
 		int[] indices = new int[count];
 		int index = 0;
-
-		// Second pass to collect the indices
 		for (int i = 0; i < heuristic.length; i++) {
 			if (heuristic[i].usesIntensityOfMutation()) {
 				indices[index++] = i;
 			}
 		}
-		// Return the array of indices
 		return indices;
 	}
 
@@ -239,26 +241,25 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	}
 
 	public void loadInstance(int instanceId) {
-		// Declare the Path variable
-		Path filename;
-		// Switch to set the filename based on instanceId
-		switch (instanceId) {
-			case 0: filename = Paths.get("instances/uzf/square.uzf"); break;
-			case 1: filename = Paths.get("instances/uzf/libraries-15.uzf"); break;
-			case 2: filename = Paths.get("instances/uzf/carparks-40.uzf"); break;
-			case 3: filename = Paths.get("instances/uzf/tramstops-85.uzf"); break;
-			case 4: filename = Paths.get("instances/uzf/grid.uzf"); break;
-			case 5: filename = Paths.get("instances/uzf/clustered-enclosures.uzf"); break;
-			case 6: filename = Paths.get("instances/uzf/chatgpt-instance-100-enclosures.uzf"); break;
-			default: throw new IllegalArgumentException("Invalid instance ID");
+		Map<Integer, String> filenameMap = Map.of(
+				0, "instances/uzf/square.uzf",
+				1, "instances/uzf/libraries-15.uzf",
+				2, "instances/uzf/carparks-40.uzf",
+				3, "instances/uzf/tramstops-85.uzf",
+				4, "instances/uzf/grid.uzf",
+				5, "instances/uzf/clustered-enclosures.uzf",
+				6, "instances/uzf/chatgpt-instance-100-enclosures.uzf"
+		);
+
+		String filepath = filenameMap.get(instanceId);
+		if (filepath == null) {
+			throw new IllegalArgumentException("Invalid instance ID");
 		}
-		// Instantiate the reader and read the instance
+
+		Path filename = Paths.get(filepath);
 		UAVInstanceReader reader = new UAVInstanceReader();
 		try {
-			// Pass the filename Path and a new Random object to the method
 			this.instance = reader.readUZFInstance(filename, new Random());
-			// Store or process the uzfInstance as needed
-
 		} catch (Exception e) {
 			System.err.println("Error reading UZF instance: " + e.getMessage());
 		}
@@ -273,21 +274,11 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 		// Allocate new memory for the solutions array with the specified size
 		this.uzfSolutionArray = new UZFSolution[size];
 	}
+
 	@Override
 	public String solutionToString(int index) {
-
-		StringBuilder sb = new StringBuilder();
 		int[] solution = uzfSolutionArray[index].getSolutionRepresentation().getSolutionRepresentation();
-		// Start the array string
-		sb.append("[");
-		// Iterate through the elements of the array
-		for (int i = 0; i < solution.length; i++) {
-			sb.append(solution[i]); // Append the current element
-			if (i < uzfSolutionArray.length - 1) {
-				sb.append(", "); // Append a comma after all but the last element
-			}
-		}
-		return sb.toString();
+		return "[" + String.join(", ", Arrays.stream(solution).mapToObj(String::valueOf).toArray(String[]::new)) + "]";
 	}
 
 	@Override
@@ -297,14 +288,12 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	}
 
 	private void updateBestSolution(int index) {
-		// TODO - make sure we cannot modify the best solution accidentally after storing it!
-		if ((Best == null) || (uzfSolutionArray[index].getObjectiveFunctionValue() < Best.getObjectiveFunctionValue())) {
-			Best = uzfSolutionArray[index].clone();
+		//Cannot manipulate the addition
+		if (Best == null || uzfSolutionArray[index].getObjectiveFunctionValue() > Best.getObjectiveFunctionValue()) {
+			Best = uzfSolutionArray[index].clone(); // Assumes clone is properly overridden.
 		}
 	}
-		// TODO - make sure we cannot modify the best solution accidentally after storing it!
 
-	
 	@Override
 	public UZFInstanceInterface getLoadedInstance() {
 		//returns the loaded instance
@@ -316,10 +305,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	 */
 	@Override
 	public int[] getBestSolutionRepresentation() {
-		// Initialize the index of the best solution
-		int[] representation = getBestSolution().getSolutionRepresentation().getSolutionRepresentation();
-		// Return the index of the solution with the maximum objective function value
-		return representation;
+		return getBestSolution().getSolutionRepresentation().getSolutionRepresentation();
 	}
 
 	@Override
@@ -327,27 +313,31 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 		//returns an array of locations
 		Location[] locations = new Location [this.instance.getNumberOfLocations()];
 		int[] bestroute = this.Best.getSolutionRepresentation().getSolutionRepresentation();
-		int numoflocations = this.instance.getNumberOfLocations();
-		for(int i = 0; i < numoflocations; i++) {
+		for(int i = 0; i < locations.length; i++) {
 			locations[i] = this.instance.getLocationForEnclosure(bestroute[i]);
 		}
 		return locations;
 	}
 
 	public UAVSolutionInterface getBestSolution() {
-		// Initialize the index of the best solution
+		if (uzfSolutionArray == null || uzfSolutionArray.length == 0) {
+			throw new IllegalStateException("Solution array is uninitialized or empty.");
+		}
+
+		// Assume the first element contains the best solution initially
 		int indexOfMax = 0;
 		int max = uzfSolutionArray[0].getObjectiveFunctionValue();
 
 		// Iterate through the array starting from the second element
 		for (int i = 1; i < uzfSolutionArray.length; i++) {
-			if (uzfSolutionArray[i].getObjectiveFunctionValue() > max) {
-				max = uzfSolutionArray[i].getObjectiveFunctionValue();  // Update max if current element is greater
+			int currentObjectiveValue = uzfSolutionArray[i].getObjectiveFunctionValue();
+			if (currentObjectiveValue > max) {
+				max = currentObjectiveValue;  // Update max if current element is greater
 				indexOfMax = i;  // Update the index of the maximum element
 			}
 		}
-		UAVSolutionInterface solution = uzfSolutionArray[indexOfMax];
-		// Return the index of the solution with the maximum objective function value
-		return solution;
+
+		// Return the solution with the maximum objective function value
+		return uzfSolutionArray[indexOfMax];
 	}
 }

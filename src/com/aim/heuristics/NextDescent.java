@@ -53,13 +53,13 @@ public class NextDescent extends HeuristicOperators implements HeuristicInterfac
 	public boolean usesIntensityOfMutation() {
 
 // TODO
-		return false;
+		return random.nextBoolean();
 	}
 
 	@Override
 	public boolean usesDepthOfSearch() {
 
 // TODO
-		return true;
+		return random.nextBoolean();
 	}
 }

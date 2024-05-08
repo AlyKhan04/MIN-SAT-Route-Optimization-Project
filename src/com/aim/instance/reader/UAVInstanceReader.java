@@ -56,9 +56,6 @@ public class UAVInstanceReader implements UAVInstanceReaderInterface {
 					enclosureCount++;
 				}
 			}
-			System.out.println(enclosureCount);
-			System.out.println(enclosureLocations);
-			System.out.print(preparationArea);
 			Location[] enclosureArray = enclosureLocations.toArray(new Location[0]);
 			// Here you would create your instance object and return it, for example:
 			return new UZFInstance(enclosureCount, enclosureArray, preparationArea, random);

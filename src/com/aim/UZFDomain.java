@@ -1,5 +1,6 @@
 package com.aim;
 
+import com.aim.heuristics.*;
 import com.aim.instance.InitialisationMode;
 import com.aim.instance.Location;
 import com.aim.instance.UZFInstance;
@@ -8,11 +9,6 @@ import com.aim.interfaces.HeuristicInterface;
 import com.aim.interfaces.UAVSolutionInterface;
 import com.aim.interfaces.UZFInstanceInterface;
 import com.aim.interfaces.Visualisable;
-import com.aim.heuristics.AdjacentSwap;
-import com.aim.heuristics.DavissHillClimbing;
-import com.aim.heuristics.NextDescent;
-import com.aim.heuristics.PMX;
-import com.aim.heuristics.Reinsertion;
 import AbstractClasses.ProblemDomain;
 import com.aim.solution.UZFSolution;
 
@@ -32,7 +28,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	UZFInstanceInterface instance;
 	UAVSolutionInterface[] uzfSolutionArray;
 	private final int[] mutationheuristics = {1,3};
-	private final int[] localsearchheuristics = {0,2};
+	private final int[] localsearchheuristics = {0,2,5};
 	private final int[] crossoverheuristics = {4};
 	UAVSolutionInterface Best;
 
@@ -47,6 +43,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 				new NextDescent(random),
 				new PMX(random),
 				new Reinsertion(random),
+				new GreedySearchMethod(random),
 		};
 		this.setMemorySize(4);
 		//heuristicsIOM = getHeuristicsThatUseDepthOfSearch();

@@ -127,14 +127,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 
 	@Override
 	public double getBestSolutionValue() {
-		double max = Double.NEGATIVE_INFINITY;
-		for (UAVSolutionInterface solution : uzfSolutionArray) {
-			if (solution != null && solution.getObjectiveFunctionValue() > max) {
-				max = solution.getObjectiveFunctionValue();
-			}
-		}
-		// Return `max` if initialized; otherwise return `Double.NEGATIVE_INFINITY`
-		return max != Double.NEGATIVE_INFINITY ? max : 0; // Replace `0` with an appropriate default value if needed
+		return getBestSolution().getObjectiveFunctionValue();
 	}
 
 	@Override
@@ -286,7 +279,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 
 	private void updateBestSolution(int index) {
 		//Cannot manipulate the addition
-		if (Best == null || uzfSolutionArray[index].getObjectiveFunctionValue() > Best.getObjectiveFunctionValue()) {
+		if (Best == null || uzfSolutionArray[index].getObjectiveFunctionValue() < Best.getObjectiveFunctionValue()) {
 			Best = uzfSolutionArray[index].clone(); // Assumes clone is properly overridden.
 		}
 	}
@@ -317,24 +310,6 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	}
 
 	public UAVSolutionInterface getBestSolution() {
-		if (uzfSolutionArray == null || uzfSolutionArray.length == 0) {
-			throw new IllegalStateException("Solution array is uninitialized or empty.");
-		}
-
-		// Assume the first element contains the best solution initially
-		int indexOfMax = 0;
-		int max = uzfSolutionArray[0].getObjectiveFunctionValue();
-
-		// Iterate through the array starting from the second element
-		for (int i = 1; i < uzfSolutionArray.length; i++) {
-			int currentObjectiveValue = uzfSolutionArray[i].getObjectiveFunctionValue();
-			if (currentObjectiveValue > max) {
-				max = currentObjectiveValue;  // Update max if current element is greater
-				indexOfMax = i;  // Update the index of the maximum element
-			}
-		}
-
-		// Return the solution with the maximum objective function value
-		return uzfSolutionArray[indexOfMax];
+		return Best;
 	}
 }

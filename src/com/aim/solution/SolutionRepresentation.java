@@ -32,6 +32,7 @@ import com.aim.interfaces.SolutionRepresentationInterface;
 
 	@Override
 	public SolutionRepresentationInterface clone() {
-		return new SolutionRepresentation(this.aiRepresentation);
+		int[] clonedrep = this.aiRepresentation.clone();
+		return new SolutionRepresentation(clonedrep);
 	}
 }

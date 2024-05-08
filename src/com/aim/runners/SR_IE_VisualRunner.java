@@ -7,6 +7,7 @@ import com.aim.hyperheuristics.ModifiedChoiceFunctionAllMoves;
 import com.aim.hyperheuristics.SR_IE_HH;
 
 import AbstractClasses.HyperHeuristic;
+import com.aim.hyperheuristics.SingleHeuristicTester;
 
 /**
  * @author Warren G Jackson

@@ -28,7 +28,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	UZFInstanceInterface instance;
 	UAVSolutionInterface[] uzfSolutionArray;
 	private final int[] mutationheuristics = {1,3};
-	private final int[] localsearchheuristics = {0,2,5};
+	private final int[] localsearchheuristics = {0,2};
 	private final int[] crossoverheuristics = {4};
 	UAVSolutionInterface Best;
 

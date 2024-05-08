@@ -3,6 +3,7 @@ package com.aim.runners;
 
 import Examples.ExampleHyperHeuristic1;
 //import com.aim.hyperheuristics.GreedySearch;
+import com.aim.hyperheuristics.ModifiedChoiceFunctionAllMoves;
 import com.aim.hyperheuristics.SR_IE_HH;
 
 import AbstractClasses.HyperHeuristic;
@@ -21,7 +22,7 @@ public class SR_IE_VisualRunner extends HH_Runner_Visual {
 	@Override
 	protected HyperHeuristic getHyperHeuristic(long seed) {
 
-		return new SR_IE_HH(seed);
+		return new ModifiedChoiceFunctionAllMoves(seed);
 	}
 	
 	public static void main(String [] args) {

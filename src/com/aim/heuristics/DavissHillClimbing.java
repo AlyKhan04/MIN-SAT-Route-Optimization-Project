@@ -46,6 +46,8 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 			//if the temp eval is better than the current solution, solution gets saved
 			if (tmpEval < currentValue) {
 				solution.getSolutionRepresentation().setSolutionRepresentation(currentRepresentation);
+				solution.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(solution.getSolutionRepresentation()));
+				System.out.println(solution.getObjectiveFunctionValue());
 			}
 		}
 		//returns the new or old objective function value

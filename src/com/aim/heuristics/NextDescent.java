@@ -36,6 +36,8 @@ public class NextDescent extends HeuristicOperators implements HeuristicInterfac
 				int tmpEval = solution.getObjectiveFunctionValue();
 				if (tmpEval < bestEval) {
 					solution.getSolutionRepresentation().setSolutionRepresentation(bestRepresentation);
+					solution.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(solution.getSolutionRepresentation()));
+					System.out.println(solution.getObjectiveFunctionValue());
 				}
 			}
 		}

@@ -5,10 +5,7 @@ import com.aim.instance.InitialisationMode;
 import com.aim.instance.Location;
 import com.aim.instance.UZFInstance;
 import com.aim.instance.reader.UAVInstanceReader;
-import com.aim.interfaces.HeuristicInterface;
-import com.aim.interfaces.UAVSolutionInterface;
-import com.aim.interfaces.UZFInstanceInterface;
-import com.aim.interfaces.Visualisable;
+import com.aim.interfaces.*;
 import AbstractClasses.ProblemDomain;
 import com.aim.solution.UZFSolution;
 
@@ -249,6 +246,10 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 		try {
 			// Pass the filename Path and a new Random object to the method
 			this.instance = reader.readUZFInstance(filename, new Random());
+			ObjectiveFunctionInterface objfunc = this.instance.getUZFObjectiveFunction();
+			for(HeuristicInterface huer : this.heuristic){
+				huer.setObjectiveFunction(objfunc);
+			}
 			// Store or process the uzfInstance as needed
 
 		} catch (Exception e) {

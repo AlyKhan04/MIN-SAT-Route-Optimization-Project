@@ -17,10 +17,9 @@ import com.aim.interfaces.ObjectiveFunctionInterface;
  */
 public class HeuristicOperators {
 
-	protected ObjectiveFunctionInterface f;
+	protected ObjectiveFunctionInterface objfunc;
 
 	protected final Random random;
-
 	public HeuristicOperators(Random random) {
 
 		this.random = random;
@@ -28,7 +27,7 @@ public class HeuristicOperators {
 
 	public void setObjectiveFunction(ObjectiveFunctionInterface f) {
 
-		this.f = f;
+		this.objfunc = f;
 	}
 	public int numberIterations(double searchDepth) {
 		if (searchDepth < 0.2) {

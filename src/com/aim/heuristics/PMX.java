@@ -14,6 +14,7 @@ import com.aim.interfaces.XOHeuristicInterface;
 public class PMX implements XOHeuristicInterface {
 
 	private final Random random;
+	ObjectiveFunctionInterface objfunc;
 
 	public PMX(Random random) {
 
@@ -67,7 +68,8 @@ public class PMX implements XOHeuristicInterface {
 
 		// Set the representation to the child
 		offspring.getSolutionRepresentation().setSolutionRepresentation(child);
-
+		offspring.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(offspring.getSolutionRepresentation()));
+		System.out.println(offspring.getObjectiveFunctionValue());
 		// Optionally, evaluate and return the quality of the new solution
 		return offspring.getObjectiveFunctionValue();
 
@@ -75,7 +77,7 @@ public class PMX implements XOHeuristicInterface {
 
 	@Override
 	public void setObjectiveFunction(ObjectiveFunctionInterface f) {
-
+		this.objfunc = f;
 		// TODO
 	}
 

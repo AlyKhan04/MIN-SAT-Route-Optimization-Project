@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class OrderedCrossover implements XOHeuristicInterface {
     private final Random random;
+    ObjectiveFunctionInterface objfunc;
 
     public OrderedCrossover(Random random) {
         this.random = random;
@@ -35,7 +36,7 @@ public class OrderedCrossover implements XOHeuristicInterface {
 
     @Override
     public void setObjectiveFunction(ObjectiveFunctionInterface oObjectiveFunction) {
-
+        this.objfunc = oObjectiveFunction;
     }
 
     @Override
@@ -73,6 +74,8 @@ public class OrderedCrossover implements XOHeuristicInterface {
         }
         // Set the representation to the child
         oChild.getSolutionRepresentation().setSolutionRepresentation(child);
+        oChild.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(oChild.getSolutionRepresentation()));
+        System.out.println(oChild.getObjectiveFunctionValue());
 
         // Optionally, evaluate and return the quality of the new solution
         return oChild.getObjectiveFunctionValue();

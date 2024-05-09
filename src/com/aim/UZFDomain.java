@@ -28,8 +28,8 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	UZFInstanceInterface instance;
 	UAVSolutionInterface[] uzfSolutionArray;
 	private final int[] mutationheuristics = {1,3};
-	private final int[] localsearchheuristics = {0,2};
-	private final int[] crossoverheuristics = {4};
+	private final int[] localsearchheuristics = {0,2,5};
+	private final int[] crossoverheuristics = {4,6};
 	UAVSolutionInterface Best;
 
 
@@ -45,6 +45,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 				new PMX(random),//55
 				new Reinsertion(random),//40
 				new GreedySearchMethod(random),//55
+				new OrderedCrossover(random),
 		};
 		this.setMemorySize(4);
 		//heuristicsIOM = getHeuristicsThatUseDepthOfSearch();
@@ -206,7 +207,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 	@Override
 	public int getNumberOfHeuristics() {
 		//returns the number of heuristics
-		return 6;
+		return 7;
 	}
 
 	@Override
@@ -262,7 +263,7 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 			throw new IllegalArgumentException("Memory size must be at least 1 to store solutions.");
 		}
 		// Allocate new memory for the solutions array with the specified size
-		this.uzfSolutionArray = new UZFSolution[size];
+		this.uzfSolutionArray = new UAVSolutionInterface[size];
 	}
 
 	@Override

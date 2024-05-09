@@ -35,8 +35,8 @@ public class UZFObjectiveFunction implements ObjectiveFunctionInterface {
 	}
 
 	public int getCost(Location oLocationA, Location oLocationB) {
-		int deltaX = oLocationA.x() - oLocationB.x();
-		int deltaY = oLocationA.y() - oLocationB.y();
+		double deltaX = oLocationA.x() - oLocationB.x();
+		double deltaY = oLocationA.y() - oLocationB.y();
 		return (int) Math.ceil(Math.sqrt(deltaX * deltaX + deltaY * deltaY));
 	}
 

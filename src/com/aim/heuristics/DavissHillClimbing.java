@@ -67,7 +67,7 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 		return perm;
 	}
 
-	//ca;culates the number of iterations based on the given search depth
+	//calculates the number of iterations based on the given search depth
 	public int numberIterations(double searchDepth) {
 		if (searchDepth < 0.2) {
 			return 1;

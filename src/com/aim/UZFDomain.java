@@ -66,6 +66,10 @@ public class UZFDomain extends ProblemDomain implements Visualisable {
 			PMX pmx = (PMX) heuristic[4];
 			pmx.apply(parent1, parent2, offspring, depthOfSearch, intensityOfMutation);
 		}
+		if (hIndex == 6) {
+			OrderedCrossover oc = (OrderedCrossover) heuristic[6];
+			oc.apply(parent1, parent2, offspring, depthOfSearch, intensityOfMutation);
+		}
 			uzfSolutionArray[candidateIndex] = offspring;
 			return offspring.getObjectiveFunctionValue();
 	}

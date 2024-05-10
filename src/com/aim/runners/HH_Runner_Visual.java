@@ -28,7 +28,7 @@ public abstract class HH_Runner_Visual {
 	public void run() {
 		
 		long seed = 18032024;
-		long timeLimit = 183000;
+		long timeLimit = 10000;
 		UZFDomain problem = new UZFDomain(seed);
 		problem.loadInstance(instanceId);
 		HyperHeuristic hh = getHyperHeuristic(seed);

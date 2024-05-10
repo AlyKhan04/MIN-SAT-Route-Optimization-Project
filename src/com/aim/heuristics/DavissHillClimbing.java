@@ -48,6 +48,7 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 				solution.getSolutionRepresentation().setSolutionRepresentation(currentRepresentation);
 				solution.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(solution.getSolutionRepresentation()));
 				System.out.println(solution.getObjectiveFunctionValue());
+				System.out.println("---DBHC---");
 			}
 		}
 		//returns the new or old objective function value

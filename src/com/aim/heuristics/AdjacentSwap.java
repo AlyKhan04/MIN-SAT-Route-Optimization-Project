@@ -47,6 +47,7 @@ public class AdjacentSwap extends HeuristicOperators implements HeuristicInterfa
 		solution.getSolutionRepresentation().setSolutionRepresentation(solutions); //update solution after heuristic applied.
 		solution.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(solution.getSolutionRepresentation()));
 		System.out.println(solution.getObjectiveFunctionValue());
+		System.out.println("---AdjacentSwap---");
 		return solution.getObjectiveFunctionValue();
 
 	}

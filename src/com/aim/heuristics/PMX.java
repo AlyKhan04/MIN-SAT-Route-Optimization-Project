@@ -71,6 +71,7 @@ public class PMX implements XOHeuristicInterface {
 		offspring.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(offspring.getSolutionRepresentation()));
 		System.out.println(offspring.getObjectiveFunctionValue());
 		// Optionally, evaluate and return the quality of the new solution
+		System.out.println("---PMX---");
 		return offspring.getObjectiveFunctionValue();
 
 	}

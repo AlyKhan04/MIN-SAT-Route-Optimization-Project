@@ -39,6 +39,7 @@ public class TournamentSelection extends HyperHeuristic  {
         // Identify crossover heuristics
         boolean[] isCrossover = new boolean[numberOfHeuristics];
         Arrays.fill(isCrossover, false);
+        System.out.println(isCrossover);
         for (int i : oProblem.getHeuristicsOfType(ProblemDomain.HeuristicType.CROSSOVER)) {
             isCrossover[i] = true;
         }

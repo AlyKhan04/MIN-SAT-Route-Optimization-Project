@@ -76,9 +76,11 @@ public class OrderedCrossover implements XOHeuristicInterface {
         oChild.getSolutionRepresentation().setSolutionRepresentation(child);
         oChild.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(oChild.getSolutionRepresentation()));
         System.out.println(oChild.getObjectiveFunctionValue());
+        System.out.println("---OC---");
 
         // Optionally, evaluate and return the quality of the new solution
         return oChild.getObjectiveFunctionValue();
+
     }
     private boolean contains(int[] array, int value, int start, int end) {
         for (int i = 0; i < array.length; i++) {

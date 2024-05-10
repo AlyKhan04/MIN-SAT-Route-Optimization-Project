@@ -50,6 +50,9 @@ public class GreedySearchMethod extends HeuristicOperators implements HeuristicI
         // Set the final solution representation only if improved
         if (improved) {
             solution.getSolutionRepresentation().setSolutionRepresentation(currentRepresentation);
+            solution.setObjectiveFunctionValue(this.objfunc.getObjectiveFunctionValue(solution.getSolutionRepresentation()));
+            System.out.println(solution.getObjectiveFunctionValue());
+            System.out.println("---GreedySearch---");
         }
 
         return solution.getObjectiveFunctionValue();

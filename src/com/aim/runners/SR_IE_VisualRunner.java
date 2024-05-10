@@ -26,7 +26,7 @@ public class SR_IE_VisualRunner extends HH_Runner_Visual {
 	
 	public static void main(String [] args) {
 		
-		HH_Runner_Visual runner = new SR_IE_VisualRunner(4);
+		HH_Runner_Visual runner = new SR_IE_VisualRunner(0);
 		runner.run();
 	}
 
